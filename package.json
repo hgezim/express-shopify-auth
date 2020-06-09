@@ -1,0 +1,35 @@
+{
+  "name": "express-shopify-auth",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "npm run lint && tsc --p tsconfig.json",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "author": "Gezim Hoxha",
+  "repository": "https://github.com/hgezim/express-shopify-auth",
+  "bugs": {
+    "url": "https://github.com/hgezim/express-shopify-auth"
+  },
+  "homepage": "https://github.com/hgezim/express-shopify-auth",
+  "dependencies": {
+    "@shopify/network": "^1.4.7"
+  },
+  "devDependencies": {
+    "@types/cookie-session": "^2.0.40",
+    "@types/express": "^4.16.0",
+    "@types/node": "^10.7.1",
+    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/parser": "^3.2.0",
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "prettier": "^1.14.2",
+    "typescript": "^3.9.5"
+  },
+  "peerDependencies": {
+    "cookie-session": "^2.0.0-rc.1"
+  }
+}

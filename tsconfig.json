@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "pretty": true,
+    "moduleResolution": "node",
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "strictNullChecks": true,
+    "sourceMap": false,
+    "noEmitOnError": false,
+    "experimentalDecorators": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "importHelpers": true,
+    "module": "commonjs",
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "noImplicitReturns": true,
+    "lib": [
+      "es2018",
+      "dom",
+      "esnext.asynciterable"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "preserveConstEnums": true,
+    "target": "es2017",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    ".eslintrc.js",
+    "./**/*.ts",
+    "./src/**/*.tsx"
+  ],
+  "exclude": [
+    "./dist",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
+}
