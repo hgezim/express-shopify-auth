@@ -4,7 +4,7 @@ const topLevelInteraction = (shop: string, prefix?: string) => {
   return `(function() {
       function setUpTopLevelInteraction() {
         var TopLevelInteraction = new ITPHelper({
-          redirectUrl: ${prefix}/auth?shop=${shop},
+          redirectUrl: "${prefix}/auth?shop=${encodeURIComponent(shop)}",
         });
 
         TopLevelInteraction.execute();

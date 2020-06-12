@@ -22,12 +22,13 @@ export default function createOAuthCallback(config: AuthConfig) {
       return;
     }
     if (typeof hmac !== 'string') {
-      res.status(400).send(Error.InvalidHmac)
+      res.status(400).send(Error.InvalidHmacType)
       return;
     }
 
     if (validateHmac(hmac, secret, query) === false) {
       res.status(400).send(Error.InvalidHmac)
+      return;
     }
 
     const accessTokenQuery = querystring.stringify({
@@ -50,6 +51,7 @@ export default function createOAuthCallback(config: AuthConfig) {
 
     if (!accessTokenResponse.ok) {
       res.status(401).send(Error.AccessTokenFetchFailure)
+      return;
     }
 
     const accessTokenData = await accessTokenResponse.json();
@@ -60,7 +62,7 @@ export default function createOAuthCallback(config: AuthConfig) {
       req.session.accessToken = accessToken;
     }
 
-    // ctx.state.shopify = { TODO: implement this stuff
+    // ctx.state.shopify = { TODO: implement this stuff — not sure it's used anywhere on the client so maybe it needs to be taken out....log issue with koa-shopify-auth
     //   shop,
     //   accessToken,
     // };

@@ -82,15 +82,12 @@ export class ShopifyAuthMiddleware {
         requestStorageAccess(req, res);
     }
 
+
     use(req: Request, res: Response, next: () => void): void {
         // ctx.cookies.secure = true; // TODO: change this accordingly
-        console.log('L90 in middleware');
 
-        // TODO: all these paths were req.path. Change them back to match koa-shopify-auth
-        // we'll obv need to fix this as well. Issue is that `prefix` in nest is removed
-        // from req.path and these checks fail without it.
         if (
-            req.baseUrl + req.path === this.oAuthStartPath &&
+            req.path === this.oAuthStartPath &&
             !hasCookieAccess(req) &&
             !grantedStorageAccess(req)
         ) {
@@ -99,24 +96,24 @@ export class ShopifyAuthMiddleware {
         }
 
         if (
-            req.baseUrl + req.path === this.inlineOAuthPath ||
+            req.path === this.inlineOAuthPath ||
             (req.path === this.oAuthStartPath && shouldPerformInlineOAuth(req))
         ) {
             this.oAuthStart(req, res);
             return;
         }
 
-        if (req.baseUrl + req.path === this.oAuthStartPath) {
+        if (req.path === this.oAuthStartPath) {
             this.topLevelOAuthRedirect(req, res);
             return;
         }
 
-        if (req.baseUrl + req.path === this.oAuthCallbackPath) {
+        if (req.path === this.oAuthCallbackPath) {
             this.oAuthCallback(req, res);
             return;
         }
 
-        if (req.baseUrl + req.path === this.enableCookiesPath) {
+        if (req.path === this.enableCookiesPath) {
             this.enableCookies(req, res);
             return;
         }

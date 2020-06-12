@@ -40,11 +40,10 @@
   "include": [
     ".eslintrc.js",
     "./**/*.ts",
+    "jest.config.js",
     "./src/**/*.tsx"
   ],
   "exclude": [
     "./dist",
-    "**/*.test.ts",
-    "**/*.test.tsx"
   ],
 }

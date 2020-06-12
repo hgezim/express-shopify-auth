@@ -41,7 +41,7 @@ export default function createEnableCookies({ apiKey, prefix }: OAuthStartOption
 
   <script>
     window.apiKey = "${apiKey}";
-    window.shopOrigin = "https://${shop}";
+    window.shopOrigin = "https://${encodeURIComponent(shop)}";
 
     ${itpHelper}
     ${topLevelInteraction(shop, prefix)}

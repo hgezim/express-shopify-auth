@@ -1,9 +1,11 @@
 import * as querystring from 'querystring';
-import * as crypto from 'crypto';
 import { OAuthStartOptions, Request } from '../types';
+import nonce from 'nonce';
 
 import getCookieOptions from './cookie-options';
 import { Response } from 'express';
+
+const createNonce = nonce();
 
 export default function oAuthQueryString(
   req: Request,
@@ -15,7 +17,7 @@ export default function oAuthQueryString(
 
   const { scopes = [], apiKey, accessMode } = options;
 
-  const requestNonce = crypto.randomBytes(16).toString('base64');
+  const requestNonce = createNonce(); //crypto.randomBytes(16).toString('base64');
   // TODO: ensure this errors out bug https://github.com/typescript-eslint/typescript-eslint/issues/2198:
   //const { cookie } = res;
   // cookie(...)

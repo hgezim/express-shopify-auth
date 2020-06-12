@@ -21,6 +21,7 @@ export default function createRequestStorageAccess({
 
     if (shop == null) {
       res.status(400).send(Error.ShopParamMissing)
+      return;
     }
     if (typeof shop !== 'string') {
       res.status(400).send(Error.ShopParamNotString)
@@ -41,7 +42,7 @@ export default function createRequestStorageAccess({
 
   <script>
     window.apiKey = "${apiKey}";
-    window.shopOrigin = "https://${shop}";
+    window.shopOrigin = "https://${encodeURIComponent(shop)}";
     ${itpHelper}
     ${storageAccessHelper}
     ${requestStorageAccess(shop, prefix)}

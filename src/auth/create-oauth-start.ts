@@ -29,6 +29,7 @@ export default function createOAuthStart(
 
     if (shop == null || !shopRegex.test(shop)) {
       res.status(400).send(Error.ShopParamMissing)
+      return;
     }
 
     res.cookie(TOP_LEVEL_OAUTH_COOKIE_NAME, '', getCookieOptions(req));
