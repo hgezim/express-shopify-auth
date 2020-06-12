@@ -11,7 +11,7 @@ Features you might know from the express module like the webhook middleware and 
 ## Installation
 
 ```bash
-$ npm install --save express-shopify-auth
+$ npm install --save hgezim-express-shopify-auth
 ```
 
 ## Usage
