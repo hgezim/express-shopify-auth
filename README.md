@@ -16,40 +16,43 @@ $ npm install --save express-shopify-auth
 
 ## Usage
 
-This package exposes `shopifyAuth` by default, and `verifyRequest` as a named export.
+This package exposes `ShopifyAuthMiddleware` and `VerifyAuthMiddleware` as a named export.
 
 ```js
-import shopifyAuth, {verifyRequest} from '@shopify/koa-shopify-auth';
+import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "express-shopify-auth";
 ```
 
-### shopifyAuth
+### ShopifyAuthMiddleware
 
-Returns an authentication middleware taking up (by default) the routes `/auth` and `/auth/callback`.
+This is a middleware class that needs to be instantiated. By default it takes the routes `/auth` and `/auth/callback`.
 
 ```js
+
+const shopifyAuth = new ShopifyAuthMiddleware({
+  // if specified, mounts the routes off of the given path
+  // eg. /shopify/auth, /shopify/auth/callback
+  // defaults to ''
+  prefix: '/shopify',
+  // your shopify app api key
+  apiKey: SHOPIFY_API_KEY,
+  // your shopify app secret
+  secret: SHOPIFY_SECRET,
+  // scopes to request on the merchants store
+  scopes: ['write_orders, write_products'],
+  // set access mode, default is 'online'
+  accessMode: 'offline',
+  // callback for when auth is completed
+  afterAuth(ctx) {
+    const {shop, accessToken} = ctx.session;
+
+    console.log('We did it!', accessToken);
+
+    ctx.redirect('/');
+  },
+});
+
 app.use(
-  shopifyAuth({
-    // if specified, mounts the routes off of the given path
-    // eg. /shopify/auth, /shopify/auth/callback
-    // defaults to ''
-    prefix: '/shopify',
-    // your shopify app api key
-    apiKey: SHOPIFY_API_KEY,
-    // your shopify app secret
-    secret: SHOPIFY_SECRET,
-    // scopes to request on the merchants store
-    scopes: ['write_orders, write_products'],
-    // set access mode, default is 'online'
-    accessMode: 'offline',
-    // callback for when auth is completed
-    afterAuth(ctx) {
-      const {shop, accessToken} = ctx.session;
-
-      console.log('We did it!', accessToken);
-
-      ctx.redirect('/');
-    },
-  }),
+  shopifyAuth.use.bind(shopifyAuth)
 );
 ```
 
@@ -61,20 +64,25 @@ This route starts the oauth process. It expects a `?shop` parameter and will err
 
 You should never have to manually go here. This route is purely for shopify to send data back during the oauth process.
 
-### verifyRequest
+### VerifyAuthMiddleware
 
 Returns a middleware to verify requests before letting them further in the chain.
 
 ```javascript
-app.use(
-  verifyRequest({
+
+const verifyRequest = new VerifyAuthMiddleware(
+  {
     // path to redirect to if verification fails
     // defaults to '/auth'
     authRoute: '/foo/auth',
     // path to redirect to if verification fails and there is no shop on the query
     // defaults to '/auth'
     fallbackRoute: '/install',
-  }),
+  }
+);
+
+app.use(
+  verifyRequest.use.bind(verifyRequest),
 );
 ```
 
@@ -82,54 +90,60 @@ app.use(
 
 ```javascript
 import 'isomorphic-fetch';
-
-import Koa from 'koa';
 import session from 'koa-session';
-import shopifyAuth, {verifyRequest} from '@shopify/koa-shopify-auth';
+import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "express-shopify-auth";
+import cookieSession = require("cookie-session");
 
-const {SHOPIFY_API_KEY, SHOPIFY_SECRET} = process.env;
 
-const app = new Koa();
-app.keys = [SHOPIFY_SECRET];
+const {SHOPIFY_API_KEY, SHOPIFY_SECRET, COOKIE_SESSION_SECRET} = process.env;
 
-app
+
+const express = require('express')
+
+const app = express()
+const port = 3000
+
+// sets up shopify auth
+const shopifyAuth = new ShopifyAuthMiddleware({
+  apiKey: SHOPIFY_API_KEY,
+  secret: SHOPIFY_SECRET,
+  scopes: ['write_orders, write_products'],
+  afterAuth(ctx) {
+    const {shop, accessToken} = ctx.session;
+
+    console.log('We did it!', accessToken);
+
+    ctx.redirect('/');
+  },
+});
+
+const verifyRequest = new VerifyAuthMiddleware()
+
   // sets up secure session data on each request
-  .use(session({ secure: true, sameSite: 'none' }, app))
-
-  // sets up shopify auth
-  .use(
-    shopifyAuth({
-      apiKey: SHOPIFY_API_KEY,
-      secret: SHOPIFY_SECRET,
-      scopes: ['write_orders, write_products'],
-      afterAuth(ctx) {
-        const {shop, accessToken} = ctx.session;
-
-        console.log('We did it!', accessToken);
-
-        ctx.redirect('/');
-      },
-    }),
-  )
-
-  // everything after this point will require authentication
-  .use(verifyRequest())
-
+app.use(cookieSession({ secure: true, sameSite: 'none', secret: COOKIE_SESSION_SECRET }))
+  // bind instance of ShopifyAuthMiddleware
+  .use(shopifyAuth.use.bind(shopifyAuth))
+  // bind instance of VerifyAuthMiddleware
+  .use(verifyRequest.use.bind(verifyRequest))
   // application code
-  .use(ctx => {
-    ctx.body = '🎉';
-  });
+  .use((req, res, next) => {
+    res.send('🎉')
+  })
+;
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+
 ```
 
 ## Gotchas
 
 ### Fetch
 
-This app uses `fetch` to make requests against shopify, and expects you to have it polyfilled. The example app code above includes a call to import it.
+This app uses `fetch` to make requests against shopify, and expects you to have it polyfilled. The example app code above imports `isomorphic-fetch`.
 
 ### Session
 
-Though you can use `shopifyAuth` without a session middleware configured, `verifyRequest` expects you to have one. If you don't want to use one and have some other solution to persist your credentials, you'll need to build your own verifiction function.
+Though you can use `ShopifyAuthMiddleware` without a session middleware configured, `VerifyAuthMiddleware` expects you to have one. If you don't want to use one and have some other solution to persist your credentials, you'll need to build your own verification function.
 
 ### Testing locally
 
