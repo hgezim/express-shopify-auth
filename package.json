@@ -5,6 +5,11 @@
   "description": "",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "keywords": [
+    "shopify",
+    "express.js",
+    "express middleware"
+  ],
   "scripts": {
     "build": "npm run lint && tsc --p tsconfig.json",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
