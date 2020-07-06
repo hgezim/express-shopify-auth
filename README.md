@@ -134,6 +134,18 @@ app.listen(port, () => console.log(`Example app listening at http://localhost:${
 
 ```
 
+## Contrib
+
+You can import this module locally from a node project using:
+
+`npm install --save <path to local dir of this module>`
+
+Then run `npm run dev` to watch this directory and build any changes.
+
+To release a new version use [release](https://www.npmjs.com/package/release):
+
+`release <type>`
+
 ## Gotchas
 
 ### Fetch
