@@ -78,7 +78,7 @@ export class ShopifyAuthMiddleware {
     }
 
     private requestStorageAccess(req: Request, res: Response) {
-        const requestStorageAccess = createRequestStorageAccess(this.config);
+        const requestStorageAccess = createRequestStorageAccess({ ...this.config, oAuthStartPath: this.oAuthStartPath });
         requestStorageAccess(req, res);
     }
 

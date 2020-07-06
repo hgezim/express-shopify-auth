@@ -15,9 +15,12 @@ export interface AuthConfig {
 export type OAuthStartOptionsPrefixType = string;
 
 export interface OAuthStartOptions extends AuthConfig {
-  oAuthStartPath: string;
   prefix?: OAuthStartOptionsPrefixType;
   scopes?: string[];
+}
+
+export interface OAuthStartOptionsInternal extends OAuthStartOptions {
+  oAuthStartPath: string;
 }
 
 export interface NextFunction {

@@ -1,4 +1,4 @@
-import { OAuthStartOptions, Request } from '../types';
+import { OAuthStartOptionsInternal, Request } from '../types';
 
 import css from './client/polaris-css';
 import itpHelper from './client/itp-helper';
@@ -14,7 +14,7 @@ const ACTION = 'Continue';
 
 export default function createRequestStorageAccess({
   apiKey, oAuthStartPath, prefix,
-}: OAuthStartOptions) {
+}: OAuthStartOptionsInternal) {
   return function requestStorage(req: Request, res: Response) {
     const { query } = req;
     const { shop } = query;
