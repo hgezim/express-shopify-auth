@@ -42,12 +42,12 @@ const shopifyAuth = new ShopifyAuthMiddleware({
   // set access mode, default is 'online'
   accessMode: 'offline',
   // callback for when auth is completed
-  afterAuth(ctx) {
-    const {shop, accessToken} = ctx.session;
+  afterAuth(req, res) {
+    const {shop, accessToken} = req.session;
 
     console.log('We did it!', accessToken);
 
-    ctx.redirect('/');
+    res.redirect('/');
   },
 });
 
@@ -90,7 +90,6 @@ app.use(
 
 ```javascript
 import 'isomorphic-fetch';
-import session from 'koa-session';
 import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "express-shopify-auth";
 import cookieSession = require("cookie-session");
 
@@ -108,13 +107,13 @@ const shopifyAuth = new ShopifyAuthMiddleware({
   apiKey: SHOPIFY_API_KEY,
   secret: SHOPIFY_SECRET,
   scopes: ['write_orders, write_products'],
-  afterAuth(ctx) {
-    const {shop, accessToken} = ctx.session;
+  afterAuth: async (req, res) => {
+    const {shop, accessToken} = req.session;
 
     console.log('We did it!', accessToken);
 
-    ctx.redirect('/');
-  },
+    res.redirect('/');
+  }
 });
 
 const verifyRequest = new VerifyAuthMiddleware()
