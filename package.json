@@ -1,6 +1,6 @@
 {
   "name": "hgezim-express-shopify-auth",
-  "version": null,
+  "version": "3.1.66",
   "license": "MIT",
   "description": "",
   "main": "dist/src/index.js",
