@@ -13,7 +13,6 @@ const FOOTER = `Cookies let the app authenticate you by temporarily storing your
 information. They expire after 30 days.`;
 const ACTION = 'Enable cookies';
 
-// TODO: koa-shopify-auth doesn't take in prefix, log a bug with them
 export default function createEnableCookies({ apiKey, prefix }: OAuthStartOptions) {
   return function enableCookies(req: Request, res: Response) {
     const { query } = req;

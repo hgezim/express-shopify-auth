@@ -1,14 +1,13 @@
 // Copied from https://github.com/Shopify/shopify_app
 
-// TODO: koa-shopify-auth doesn't take in prefix, log a bug with them
-const requestStorageAccess = (shop: string, prefix?: string) => {
+const requestStorageAccess = (shop: string, oAuthStartPath: string, prefix?: string) => {
   return `(function() {
       function redirect() {
         var targetInfo = {
           myshopifyUrl: "https://${encodeURIComponent(shop)}",
           hasStorageAccessUrl: "${prefix}/auth/inline?shop=${encodeURIComponent(shop,)}",
           doesNotHaveStorageAccessUrl: "${prefix}/auth/enable_cookies?shop=${encodeURIComponent(shop,)}",
-          appTargetUrl: "${prefix ?? '/'}?shop=${encodeURIComponent(shop)}"
+          appTargetUrl: "${oAuthStartPath}?shop=${encodeURIComponent(shop)}"
         }
 
         if (window.top == window.self) {
