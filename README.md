@@ -102,7 +102,6 @@ app.use(session({resave: true ,secret: '123456' , saveUninitialized: true}));
 ```javascript
 import 'isomorphic-fetch';
 import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "express-shopify-auth";
-import cookieSession = require("cookie-session");
 import cookieParser from "cookie-parser";
 import session from "express-session";
 
