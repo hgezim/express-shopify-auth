@@ -19,7 +19,7 @@ $ npm install --save hgezim-express-shopify-auth
 This package exposes `ShopifyAuthMiddleware` and `VerifyAuthMiddleware` as a named export.
 
 ```js
-import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "express-shopify-auth";
+import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "hgezim-express-shopify-auth";
 ```
 
 ### ShopifyAuthMiddleware
@@ -101,7 +101,7 @@ app.use(session({resave: true ,secret: '123456' , saveUninitialized: true}));
 
 ```javascript
 import 'isomorphic-fetch';
-import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "express-shopify-auth";
+import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "hgezim-express-shopify-auth";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 
