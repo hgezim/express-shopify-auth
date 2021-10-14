@@ -19,8 +19,8 @@ export class VerifyAuthMiddleware {
 
         // loginAgainIfDifferentShop(routes, next);
 
-        verifyToken(this.routes);
+        const verify_token = verifyToken(this.routes);
 
-        next();
+        verify_token(_req, _res, next);
     }
 }
