@@ -86,7 +86,7 @@ app.use(
 );
 ```
 ### cookie-parser & express-session
-We need to install and use cookie-parser.
+We need to install and use cookie-parser and express-session.
 
 ```javascript
 import cookieParser from "cookie-parser";
