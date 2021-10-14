@@ -85,6 +85,17 @@ app.use(
   verifyRequest.use.bind(verifyRequest),
 );
 ```
+### cookie-parser & express-session
+We need to install and use cookie-parser.
+
+```javascript
+import cookieParser from "cookie-parser";
+import session from "express-session";
+
+app.use(cookieParser());
+app.use(session({resave: true ,secret: '123456' , saveUninitialized: true}));
+
+```
 
 ### Example app
 
@@ -92,7 +103,8 @@ app.use(
 import 'isomorphic-fetch';
 import { ShopifyAuthMiddleware, VerifyAuthMiddleware } from "express-shopify-auth";
 import cookieSession = require("cookie-session");
-
+import cookieParser from "cookie-parser";
+import session from "express-session";
 
 const {SHOPIFY_API_KEY, SHOPIFY_SECRET, COOKIE_SESSION_SECRET} = process.env;
 
@@ -118,17 +130,11 @@ const shopifyAuth = new ShopifyAuthMiddleware({
 
 const verifyRequest = new VerifyAuthMiddleware()
 
-  // sets up secure session data on each request
-app.use(cookieSession({ secure: true, sameSite: 'none', secret: COOKIE_SESSION_SECRET }))
-  // bind instance of ShopifyAuthMiddleware
-  .use(shopifyAuth.use.bind(shopifyAuth))
-  // bind instance of VerifyAuthMiddleware
-  .use(verifyRequest.use.bind(verifyRequest))
-  // application code
-  .use((req, res, next) => {
-    res.send('🎉')
-  })
-;
+
+app.use(cookieParser());
+app.use(session({resave: true ,secret: '123456' , saveUninitialized: true}));
+app.use(shopifyAuth.use.bind(shopifyAuth));
+app.use(verifyRequest.use.bind(verifyRequest));
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 
