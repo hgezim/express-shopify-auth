@@ -20,8 +20,8 @@ export function verifyToken(routes: Routes) {
     if (session && session.accessToken) {
       // set expiry date to 1 hour ago to delete cookie
       res.cookie(TOP_LEVEL_OAUTH_COOKIE_NAME, 1, {
-        expires: new Date(0),
-        maxAge: undefined
+        expires: false,
+        maxAge: 5 * 60 * 1000
       });
       // If a user has installed the store previously on their shop, the accessToken can be stored in session.
       // we need to check if the accessToken is valid, and the only way to do this is by hitting the api.
