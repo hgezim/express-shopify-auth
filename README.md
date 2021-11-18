@@ -1,3 +1,5 @@
+## This repo is no longer active. Shopify now recommends cookie-less auth (token based auth).
+
 # `express-shopify-auth`
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
